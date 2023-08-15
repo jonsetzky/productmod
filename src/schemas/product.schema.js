@@ -131,36 +131,66 @@ const productSchema = Joi.object()
   .meta({ className: 'Product' })
   .unknown(false);
 
-const getProductsQuerySchema = Joi.object()
+const getProductsSchema = Joi.object()
   .keys({
-    expand: Joi.array().items(
-      Joi.string().valid(
-        'translations',
-        'visibilities',
-        'category_links',
-        'image_links',
-        'features',
-        'variations',
-        'variations.features',
-        'variations.stock_item',
-        'brand',
-        'stock_item',
+    query: Joi.object().keys({
+      expand: Joi.array().items(
+        Joi.string().valid(
+          'translations',
+          'visibilities',
+          'category_links',
+          'image_links',
+          'features',
+          'variations',
+          'variations.features',
+          'variations.stock_item',
+          'brand',
+          'stock_item',
+        ),
       ),
-    ),
-    id: Joi.number().integer().min(1),
-    'created_at-from': Joi.date(),
-    'created_at-to': Joi.date(),
-    'updated_at-from': Joi.date(),
-    'updated_at-to': Joi.date(),
-    page_size: Joi.number().integer().min(0),
-    page: Joi.number().integer(),
-    sort: Joi.string().valid('id-asc', 'id-desc'),
+      id: Joi.number().integer().min(1),
+      'created_at-from': Joi.date(),
+      'created_at-to': Joi.date(),
+      'updated_at-from': Joi.date(),
+      'updated_at-to': Joi.date(),
+      page_size: Joi.number().integer().min(0),
+      page: Joi.number().integer(),
+      sort: Joi.string().valid('id-asc', 'id-desc'),
+    }),
   })
-  .meta({ className: 'GetProductsQuery' });
+  .unknown(false)
+  .meta({ className: 'GetProductsRequestBody' });
+
+const getProductVariationsSchema = Joi.object()
+  .keys({
+    params: {
+      productID: Joi.number().integer().required(),
+    },
+    query: Joi.object().keys({
+      expand: Joi.array().items(Joi.string().valid('translations')),
+      page_size: Joi.number().integer().min(0),
+      page: Joi.number().integer(),
+      sort: Joi.string().valid('id-asc', 'id-desc'),
+    }),
+  })
+  .unknown(false)
+  .meta({ className: 'GetProductVariationsRequestBody' });
+
+const modifyProductVariationFeaturesSchema = Joi.object()
+  .keys({
+    params: {
+      productID: Joi.number().integer().required(),
+      variationID: Joi.number().integer().required(),
+    },
+  })
+  .unknown(false)
+  .meta({ className: 'ModifyProductVariationFeaturesRequestBody' });
 
 module.exports = {
   productSchema,
   productVariationSchema,
   featuresSchema,
-  getProductsQuerySchema,
+  getProductsSchema,
+  getProductVariationsSchema,
+  modifyProductVariationFeaturesSchema,
 };

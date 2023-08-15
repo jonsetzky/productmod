@@ -62,8 +62,10 @@ describe('product', () => {
       it('should throw with invalid query', async () => {
         expect(() =>
           mcf.product.getProducts({
-            page_size: 2,
-            updated_at_from: Date.now(), // invalid key
+            query: {
+              page_size: 2,
+              updated_at_from: Date.now(), // invalid key
+            },
           }),
         ).rejects.toThrow();
       });
@@ -71,9 +73,11 @@ describe('product', () => {
       it('should succeed with valid query', async () => {
         expect(
           await mcf.product.getProducts({
-            id: 2,
-            expand: ['image_links'],
-            sort: 'id-asc',
+            query: {
+              id: 2,
+              expand: ['image_links'],
+              sort: 'id-asc',
+            },
           }),
         ).toEqual(getProductsFixture);
       });

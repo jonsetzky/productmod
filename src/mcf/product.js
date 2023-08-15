@@ -2,7 +2,12 @@ const Joi = require('joi');
 const Endpoint = require('./endpoint');
 const { productSchemas } = require('../schemas');
 const validate = require('./validate');
-const { getProductsQuerySchema } = require('../schemas/product.schema');
+const {
+  getProductsQuerySchema,
+  getProductsSchema,
+  getProductVariationsSchema,
+  modifyProductVariationFeaturesSchema,
+} = require('../schemas/product.schema');
 
 /**
  * @typedef {import('../interfaces').Product} Product
@@ -12,54 +17,52 @@ const { getProductsQuerySchema } = require('../schemas/product.schema');
 
 const ProductEndpoint = class extends Endpoint {
   /**
-   * @param {import('../interfaces').GetProductsQuery} [query]
+   * @param {import('../interfaces').GetProductsRequestBody} [requestBody]
    * @returns
    */
-  async getProducts(query) {
-    query = validate(getProductsQuerySchema, query);
-
+  async getProducts(requestBody) {
     /** @type {import('../interfaces').MCFResponse<Product[]>} */
-    const res = await this._request({
-      url: '/v1/products',
-      method: 'GET',
-      params: {
-        ...query,
-        expand: query ? query.expand.join(',') : undefined,
+    const res = await this._request(
+      {
+        url: '/v1/products',
+        method: 'GET',
       },
-    });
+      requestBody,
+      getProductsSchema,
+    );
     return res;
   }
 
   /**
-   * @param {number} productID
+   * @param {import('../interfaces').GetProductVariationsRequestBody} requestBody
    */
-  async getProductVariations(productID) {
+  async getProductVariations(requestBody) {
     /** @type {import('../interfaces').MCFResponse<ProductVariation[]>} */
-    const res = (
-      await this._request({
+    const res = await this._request(
+      {
         url: `/v1/products/${productID}/variations`,
         method: 'GET',
-      })
-    ).data;
+      },
+      requestBody,
+      getProductVariationsSchema,
+    );
     return res;
   }
 
   /**
    * Modify product's variation's features
-   * @param {number} productID
-   * @param {number} variationID
-   * @param {Features} body
+   * @param {import('../interfaces').ModifyProductVariationFeaturesRequestBody} requestBody
    */
-  async modifyProductVariationFeatures(productID, variationID, body) {
-    const data = validate(productSchemas.featuresSchema, body);
+  async modifyProductVariationFeatures(requestBody) {
     /** @type {Features} */
-    const res = (
-      await this._request({
+    const res = await this._request(
+      {
         url: `/v1/products/${productID}/variations/${variationID}/features`,
         method: 'PATCH',
-        data,
-      })
-    ).data;
+      },
+      requestBody,
+      modifyProductVariationFeaturesSchema,
+    );
     return res;
   }
 };

@@ -1,20 +1,21 @@
-const mcf = require('../../mcf');
+const MCF = require('../../mcf');
 const config = require('../../config');
 
 describe('real server', () => {
-  const { get } = mcf(config.baseUrl, config.username, config.apiKey);
+  const mcf = new MCF(config.baseUrl, config.username, config.apiKey);
 
   describe('mcf', () => {
     it('connects to server', async () => {
       await expect(
-        get('/versions').catch((error) => {
+        mcf.get('/versions').catch((error) => {
           if (!error.response) throw new Error(error);
         }),
       ).resolves.not.toThrowError();
     });
 
     it('authenticates', async () => {
-      const versions = await get('/versions');
+      const versions = await mcf.get('/versions');
+      expect(versions.status).toBe(200);
       expect(versions.data.data).toBeDefined();
     });
   });

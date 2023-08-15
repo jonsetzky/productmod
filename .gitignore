@@ -4,6 +4,9 @@
 /node_modules
 jspm_packages
 
+# fixtures
+test/fixtures/objects/*
+
 # Serverless directories
 .serverless
 

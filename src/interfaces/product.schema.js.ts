@@ -3,6 +3,10 @@
  * Do not modify this file manually
  */
 
+export interface Features {
+  [x: string]: any[] | string | number;
+}
+
 export interface Product {
   available_from?: string;
   available_to?: string;
@@ -28,9 +32,7 @@ export interface Product {
   };
   created_at?: string;
   description?: string;
-  features?: {
-    [x: string]: string[];
-  };
+  features?: Features;
   id?: number;
   image_links?: {
     caption?: string;
@@ -106,9 +108,7 @@ export interface Product {
 
 export interface ProductVariation {
   created_at?: string;
-  features?: {
-    [x: string]: string[];
-  };
+  features?: Features;
   id?: number;
   image_id?: number;
   name?: string;

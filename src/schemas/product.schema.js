@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const { commaSeperatedList } = require('./custom.schema');
 const featuresSchema = Joi.object()
   .unknown()
   .meta({
@@ -130,8 +131,36 @@ const productSchema = Joi.object()
   .meta({ className: 'Product' })
   .unknown(false);
 
+const getProductsQuerySchema = Joi.object()
+  .keys({
+    expand: Joi.array().items(
+      Joi.string().valid(
+        'translations',
+        'visibilities',
+        'category_links',
+        'image_links',
+        'features',
+        'variations',
+        'variations.features',
+        'variations.stock_item',
+        'brand',
+        'stock_item',
+      ),
+    ),
+    id: Joi.number().integer().min(1),
+    'created_at-from': Joi.date(),
+    'created_at-to': Joi.date(),
+    'updated_at-from': Joi.date(),
+    'updated_at-to': Joi.date(),
+    page_size: Joi.number().integer().min(0),
+    page: Joi.number().integer(),
+    sort: Joi.string().valid('id-asc', 'id-desc'),
+  })
+  .meta({ className: 'GetProductsQuery' });
+
 module.exports = {
   productSchema,
   productVariationSchema,
   featuresSchema,
+  getProductsQuerySchema,
 };

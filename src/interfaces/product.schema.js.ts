@@ -7,6 +7,18 @@ export interface Features {
   [x: string]: any[] | string | number;
 }
 
+export interface GetProductsQuery {
+  'created_at-from'?: Date;
+  'created_at-to'?: Date;
+  'updated_at-from'?: Date;
+  'updated_at-to'?: Date;
+  expand?: ('translations' | 'visibilities' | 'category_links' | 'image_links' | 'features' | 'variations' | 'variations.features' | 'variations.stock_item' | 'brand' | 'stock_item')[];
+  id?: number;
+  page?: number;
+  page_size?: number;
+  sort?: 'id-asc' | 'id-desc';
+}
+
 export interface Product {
   available_from?: string;
   available_to?: string;

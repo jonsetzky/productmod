@@ -5,6 +5,7 @@ const { productSchema } = require('../../schemas/product.schema');
 const validate = require('../../mcf/validate');
 const Joi = require('joi');
 const { getProductsFixture } = require('../../../test/fixtures/product.fixture');
+const { default: axios } = require('axios');
 
 describe('product', () => {
   /**
@@ -25,9 +26,7 @@ describe('product', () => {
     });
   };
 
-  describe('endpoints', () => {});
-
-  describe('live data', () => {
+  describe('e2e', () => {
     const mcf = new MCF(config.baseUrl, config.username, config.apiKey);
 
     /**
@@ -45,5 +44,24 @@ describe('product', () => {
   describe('fixture data', () => {
     const products = getProductsFixture;
     productTests(products);
+  });
+
+  describe('unit test', () => {
+    const MockAdapter = require('axios-mock-adapter');
+    const mock = new MockAdapter(axios);
+    const mcf = new MCF(config.baseUrl, config.username, config.apiKey);
+
+    describe('getProducts', () => {
+      mock.onGet('/v1/products').reply(200, getProductsFixture);
+
+      it('should get products', async () => {
+        const products = await mcf.product.getProducts();
+
+        expect(products).toEqual(getProductsFixture);
+      });
+    });
+
+    describe('getProductVariations', () => {});
+    describe('modifyProductVariationFeatures', () => {});
   });
 });

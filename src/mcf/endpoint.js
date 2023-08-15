@@ -17,6 +17,6 @@ module.exports = class Endpoint {
     const res = await this.#axios.request(config).catch((err) => {
       throw new ApiError(err.request, err.response, err.message);
     });
-    return res.request;
+    return res.data;
   }
 };

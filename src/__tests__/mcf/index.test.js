@@ -1,10 +1,10 @@
 const MCF = require('../../mcf');
 const config = require('../../config');
 
-describe('real server', () => {
+describe('mcf', () => {
   const mcf = new MCF(config.baseUrl, config.username, config.apiKey);
 
-  describe('mcf', () => {
+  describe('e2e', () => {
     it('connects to server', async () => {
       await expect(
         mcf.get('/versions').catch((error) => {

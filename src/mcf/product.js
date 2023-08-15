@@ -13,7 +13,7 @@ const ProductEndpoint = class extends Endpoint {
   async getProducts() {
     /** @type {import('../interfaces').MCFResponse<Product[]>} */
     const res = (
-      await this._axios.request({
+      await this.request({
         url: '/v1/products',
         method: 'GET',
       })
@@ -27,7 +27,7 @@ const ProductEndpoint = class extends Endpoint {
   async getProductVariations(productID) {
     /** @type {import('../interfaces').MCFResponse<ProductVariation[]>} */
     const res = (
-      await this._axios.request({
+      await this.request({
         url: `/v1/products/${productID}/variations`,
         method: 'GET',
       })
@@ -45,7 +45,7 @@ const ProductEndpoint = class extends Endpoint {
     const data = validate(productSchemas.featuresSchema, body);
     /** @type {Features} */
     const res = (
-      await this._axios.request({
+      await this.request({
         url: `/v1/products/${productID}/variations/${variationID}/features`,
         method: 'PATCH',
         data,

@@ -29,7 +29,7 @@ export interface Product {
     product_id?: number;
     product_sort?: number;
     updated_at?: string;
-  };
+  }[];
   created_at?: string;
   description?: string;
   features?: Features;
@@ -40,7 +40,7 @@ export interface Product {
     image_id?: number;
     product_id?: number;
     sort?: number;
-  };
+  }[];
   information?: string;
   keywords?: string;
   name?: string;
@@ -55,15 +55,15 @@ export interface Product {
   seo_page_title?: string;
   seo_title?: string;
   stock_item?: {
-    backorder_enabled?: false;
+    backorder_enabled?: boolean;
     backorder_estimate?: string;
     balance?: number;
-    balance_alert?: false;
+    balance_alert?: boolean;
     balance_limit?: number;
     barcode?: string;
     code?: string;
     created_at?: string;
-    enabled?: true;
+    enabled?: boolean;
     id?: number;
     location?: string;
     product_id?: number;
@@ -82,25 +82,14 @@ export interface Product {
     seo_meta_description?: string;
     seo_page_title?: string;
     seo_title?: string;
-  } | {
-    description?: string;
-    information?: string;
-    language?: string;
-    name?: string;
-    seo_meta_description?: string;
-    seo_page_title?: string;
-    seo_title?: string;
-  };
+  }[];
   updated_at?: string;
   variations?: ProductVariation[];
   vat_rate?: number;
   visibilities?: {
-    is_visible?: true;
+    is_visible?: boolean;
     version_id?: number;
-  } | {
-    is_visible?: false;
-    version_id?: number;
-  };
+  }[];
   visible_from?: string;
   warranty?: number;
   weight?: number;
@@ -118,15 +107,15 @@ export interface ProductVariation {
   purchase_price?: number;
   sort?: number;
   stock_item?: {
-    backorder_enabled?: false;
+    backorder_enabled?: boolean;
     backorder_estimate?: string;
     balance?: number;
-    balance_alert?: false;
+    balance_alert?: boolean;
     balance_limit?: number;
     barcode?: string;
     code?: string;
     created_at?: string;
-    enabled?: true;
+    enabled?: boolean;
     id?: number;
     location?: string;
     product_id?: number;

@@ -2,6 +2,8 @@ const yesno = require('yesno');
 const config = require('./config');
 const MCF = require('./mcf');
 
+const assignVariationNameAsFeature = () => {};
+
 (async () => {
   if (
     !(await yesno({

@@ -24,6 +24,9 @@ describe('product', () => {
       });
     });
   };
+
+  describe('endpoints', () => {});
+
   describe('live data', () => {
     const mcf = new MCF(config.baseUrl, config.username, config.apiKey);
 

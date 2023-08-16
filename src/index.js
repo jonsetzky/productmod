@@ -3,8 +3,6 @@ const { program } = require('commander');
 const config = require('./config');
 const MCF = require('./mcf');
 
-const assignVariationNameAsFeature = () => {};
-
 program.option('--modify');
 program.parse();
 

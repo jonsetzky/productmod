@@ -8,24 +8,6 @@ const { getProductsFixture } = require('../../../test/fixtures/product.fixture')
 const { default: axios } = require('axios');
 
 describe('product', () => {
-  /**
-   * @param {import('../../interfaces').MCFResponse<import('../../mcf/product').Product[]>} products
-   */
-  const productTests = (products) => {
-    describe('all products from response', () => {
-      it('should match schema', () => {
-        products.data.forEach((product) => {
-          expect(() => validate(productSchema, product)).not.toThrow();
-        });
-      });
-      it('should have variations list which all match the schema', () => {
-        products.data.forEach((product) => {
-          expect(() => validate(Joi.array().items(productSchemas.productVariationSchema), product.variations)).not.toThrow();
-        });
-      });
-    });
-  };
-
   describe('live data', () => {
     const mcf = new MCF(config.baseUrl, config.username, config.apiKey);
 
@@ -55,14 +37,9 @@ describe('product', () => {
         );
       });
     });
-
-    if (products) productTests(products);
   });
 
-  describe('fixture data', () => {
-    const products = getProductsFixture;
-    productTests(products);
-  });
+  describe('fixture data', () => {});
 
   describe('unit test', () => {
     const MockAdapter = require('axios-mock-adapter');

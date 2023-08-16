@@ -1,15 +1,16 @@
+const { AxiosError } = require('axios');
+
 const ApiError = class extends Error {
   /**
    *
-   * @param {any} request
-   * @param {import("axios").AxiosResponse} response
-   * @param {any} message
+   * @param {AxiosError} error
    */
-  constructor(request, response, message) {
-    super(message);
+  constructor(error) {
+    super(error.message);
     this.name = 'ApiError';
-    this.request = request;
-    this.response = response;
+
+    this.getRequest = () => error.request;
+    this.getResponse = () => error.response;
   }
 };
 

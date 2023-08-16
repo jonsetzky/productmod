@@ -14,6 +14,18 @@ const generate = async () => {
   const products = await mcf.product.getProducts({
     query: {
       page_size: 5000,
+      expand: [
+        'translations',
+        'visibilities',
+        'category_links',
+        'image_links',
+        'features',
+        'variations',
+        'variations.features',
+        'variations.stock_item',
+        'brand',
+        'stock_item',
+      ],
     },
   });
 
@@ -22,7 +34,7 @@ const generate = async () => {
     path.join(objectsPath, 'diversity', 'variationNames.json'),
     JSON.stringify(generateVariationNames(products)),
   );
-  fs.writeFileSync(path.join(objectsPath, 'diversity', 'productAttributes.json'), await fetchProductAttributes(mcf));
+  fs.writeFileSync(path.join(objectsPath, 'diversity', 'attributes.json'), await fetchProductAttributes(mcf));
 };
 
 module.exports = generate;

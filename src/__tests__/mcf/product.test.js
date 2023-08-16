@@ -26,16 +26,34 @@ describe('product', () => {
     });
   };
 
-  describe('e2e', () => {
+  describe('live data', () => {
     const mcf = new MCF(config.baseUrl, config.username, config.apiKey);
 
-    /**
-     * @type {import('../../interfaces').MCFResponse<import('../../mcf/product').Product[]>}
-     */
-    let products;
     it('fetches all products', async () => {
-      products = await mcf.product.getProducts();
+      const products = await mcf.product.getProducts();
       expect(products.data[0].id).toBeDefined();
+    });
+
+    describe('getProducts', () => {
+      it('should match schema', async () => {
+        const products = await mcf.product.getProducts();
+        validate(responseSchemas.mcfResponseSchema(Joi.array().items(productSchema)), products);
+      });
+    });
+
+    describe('getProductVariations', () => {
+      it('should match schema', async () => {
+        const products = await mcf.product.getProducts();
+        const productVariations = await mcf.product.getProductVariations({
+          params: {
+            productID: products.data[0].id,
+          },
+        });
+        validate(
+          responseSchemas.mcfResponseSchema(Joi.array().items(productSchemas.productVariationSchema)),
+          productVariations,
+        );
+      });
     });
 
     if (products) productTests(products);
@@ -54,7 +72,7 @@ describe('product', () => {
     describe('getProducts', () => {
       mock.onGet('/v1/products').reply(200, getProductsFixture);
 
-      it('should get products', async () => {
+      it('should send valid request', async () => {
         const products = await mcf.product.getProducts();
         expect(products).toEqual(getProductsFixture);
       });
@@ -83,7 +101,15 @@ describe('product', () => {
       });
     });
 
-    describe('getProductVariations', () => {});
-    describe('modifyProductVariationFeatures', () => {});
+    describe('getProductVariations', () => {
+      it.todo('should send valid request');
+      it.todo('should throw with invalid query');
+      it.todo('should succeed with valid query');
+    });
+    describe('modifyProductVariationFeatures', () => {
+      it.todo('should send valid request');
+      it.todo('should throw with invalid query');
+      it.todo('should succeed with valid query');
+    });
   });
 });

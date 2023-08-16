@@ -6,13 +6,18 @@
 - [git](https://git-scm.com/download)
 - yarn `npm i -g yarn`
 
-## Running tests
+## Installation
 
 ```
 git clone https://github.com/jonsetzky/productmod
 cd productmod
 yarn
 yarn build
+```
+
+## Running tests
+
+```
 yarn run fixtures
 yarn test
 ```
